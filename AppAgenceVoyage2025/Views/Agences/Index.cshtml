@@ -1,0 +1,163 @@
+﻿@model PagedList.IPagedList<AppAgenceVoyage.Models.Agence>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Liste des Agences";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Liste des Agences</h2>
+
+<!-- Formulaire de recherche -->
+<div class="form-horizontal">
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.Label("Adresse", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextBox("adresse", ViewBag.adresse as string, new { @class = "form-control", id = "adresse" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("NINEA", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextBox("ninea", ViewBag.ninea as string, new { @class = "form-control", id = "ninea" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("RCCM", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextBox("rccm", ViewBag.rccm as string, new { @class = "form-control", id = "rccm" })
+        </div>
+    </div>
+}
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<!-- Tableau des résultats -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AdresseAgence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().NineaGestionnaire)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().RccmGestionnaire)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdresseAgence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NineaGestionnaire)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RccmGestionnaire)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IdAgence }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IdAgence }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdAgence })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div id="pagination">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, adresse = ViewBag.adresse, ninea = ViewBag.ninea, rccm = ViewBag.rccm }))
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        let timer;
+
+        function chargerAgences(page) {
+            var adresse = $("#adresse").val();
+            var ninea = $("#ninea").val();
+            var rccm = $("#rccm").val();
+
+            console.log("Envoi AJAX avec page:", page, "adresse:", adresse, "ninea:", ninea, "rccm:", rccm); // 🔎 Vérifier si AJAX est bien envoyé
+
+            $.ajax({
+                url: 'Agences/FiltrerAgences',
+                type: "GET",
+                data: { adresse: adresse, ninea: ninea, rccm: rccm, page: page },
+                beforeSend: function () {
+                    $("#tableBody").html("<tr><td colspan='3' class='text-center'>Chargement...</td></tr>");
+                },
+                success: function (data) {
+                    console.log("Réponse AJAX reçue:", data); // 🔎 Vérifier si la réponse est bien reçue
+
+                    $("#tableBody").empty();
+                    if (data.agences.length === 0) {
+                        $("#tableBody").html("<tr><td colspan='3' class='text-center'>Aucune agence trouvée</td></tr>");
+                    } else {
+                        $.each(data.agences, function (index, item) {
+                            var row = "<tr><td>" + item.AdresseAgence + "</td><td>" + item.Longitude + "</td><td>" + item.Latitude + "</td><td>" + item.NineaGestionnaire + "</td><td>" + item.RccmGestionnaire + "</td><td><a href='/Home/Edit/" + item.IdAgence + "'>Edit</a> | <a href='/Home/Details/" + item.IdAgence + "'>Details</a> | <a href='/Home/Delete/" + item.IdAgence + "'>Delete</a></td></tr>";
+                            $("#tableBody").append(row);
+                        });
+                    }
+
+                    // Mettre à jour la pagination
+                    $("#pagination").html('');
+                    for (var i = 1; i <= data.pagination.totalPages; i++) {
+                        let activeClass = (i === data.pagination.currentPage) ? "active" : "";
+                        $("#pagination").append("<a href='#' class='page-link " + activeClass + "' data-page='" + i + "'>" + i + "</a> ");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Erreur AJAX:", error); // 🔎 Vérifier les erreurs
+                }
+            });
+        }
+
+        // Filtrage dynamique avec timeout pour éviter trop de requêtes
+        $("#adresse, #ninea, #rccm").on("keyup", function () {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                chargerAgences(1);
+            }, 300);
+        });
+
+        // Pagination AJAX
+        $(document).on("click", ".page-link", function (e) {
+            e.preventDefault();
+            var page = $(this).data("page");
+            chargerAgences(page);
+        });
+
+        // Charger les agences au démarrage
+        chargerAgences(1);
+    });
+</script>

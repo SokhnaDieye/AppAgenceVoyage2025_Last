@@ -1,0 +1,61 @@
+﻿@model AppAgenceVoyage2025.Models.RegisterViewModel
+@{
+    ViewBag.Title = "S'inscrire";
+}
+
+<main aria-labelledby="title" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <h2 id="title" class="text-center mb-4 text-primary">@ViewBag.Title</h2>
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h4 class="text-center text-muted mb-3">Créez un nouveau compte</h4>
+                    <hr class="my-3" />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.NomUtilisateur, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.NomUtilisateur, new { @class = "form-control form-control-lg", placeholder = "Entrez votre nom" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.PreomUtilisateur, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.PreomUtilisateur, new { @class = "form-control form-control-lg", placeholder = "Entrez votre prénom" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.EmailUtilisateur, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.EmailUtilisateur, new { @class = "form-control form-control-lg", placeholder = "Entrez votre email" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.TelephoneUtilisateur, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.TelephoneUtilisateur, new { @class = "form-control form-control-lg", placeholder = "Entrez votre numéro de téléphone" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.CNIClient, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.CNIClient, new { @class = "form-control form-control-lg", placeholder = "Entrez votre CNI" })
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <input type="submit" value="S'inscrire" class="btn btn-primary btn-lg w-75 shadow-sm" />
+                    </div>
+
+                    <div class="text-center">
+                        <p>
+                            <a href="@Url.Action("Login", "Account")" class="text-decoration-none">J'ai déjà un compte</a>
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

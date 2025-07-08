@@ -1,0 +1,67 @@
+﻿@using AppAgenceVoyage2025.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Se connecter";
+}
+
+<main aria-labelledby="title" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <h2 id="title" class="text-center mb-4 text-primary">@ViewBag.Title</h2>
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h4 class="text-center text-muted mb-3">Connectez-vous à l'aide de votre compte local</h4>
+                    <hr class="my-3" />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg", placeholder = "Entrez votre email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", placeholder = "Entrez votre mot de passe" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                            @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <input type="submit" value="Se connecter" class="btn btn-primary btn-lg w-75 shadow-sm" />
+                    </div>
+
+                    <div class="text-center">
+                        <p>
+                            @Html.ActionLink("Inscrivez-vous comme nouvel utilisateur", "Register")
+                        </p>
+                    </div>
+
+                    @* Activez ceci une fois que vous avez activé la confirmation du compte pour la fonctionnalité de réinitialisation du mot de passe
+                        <p>
+                            @Html.ActionLink("Vous avez oublié votre mot de passe ?", "ForgotPassword")
+                        </p>*@
+                }
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

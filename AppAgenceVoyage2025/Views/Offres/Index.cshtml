@@ -1,0 +1,101 @@
+﻿@model List<AppAgenceVoyage.Models.Offre>
+
+@{
+    ViewBag.Title = "Liste des Offres";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">✈️ Liste des Offres</h2>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#offreModal" onclick="clearTextBox();">
+            <i class="fa fa-plus"></i> Ajouter une Offre
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover shadow-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Prix Journalier</th>
+                    <th>Disponibilité</th>
+                    <th>Agence</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="offresTableBody">
+                <!-- Les offres seront chargées dynamiquement ici -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="offreModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header bg-primary text-white">
+                <h4 class="modal-title"><i class="fa fa-tag"></i> Ajouter une Offre</h4>
+                <button type="button" class="close text-white" data-dismiss="modal" onclick="Close()">×</button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="OffreID">
+
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="Description" placeholder="Entrez la description">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PrixJour">Prix Journalier (€)</label>
+                        <input type="number" class="form-control" id="PrixJour" placeholder="Entrez le prix" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Disponibilite">Disponibilité</label>
+                        <select id="Disponibilite" class="form-control">
+                            <option value="Disponible">Disponible</option>
+                            <option value="Non disponible">Non disponible</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IdAgence">Agence</label>
+                        <select id="IdAgence" class="form-control">
+                            @foreach (var agence in ViewBag.Agences)
+                            {
+                                <option value="@agence.IdAgence">@agence.AdresseAgence</option>
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button id="btnAdd" class="btn btn-success" onclick="addOffre();">
+                    <i class="fa fa-check"></i> Ajouter
+                </button>
+
+                <button type="button" id="btnUpdate" class="btn btn-warning" onclick="updateOffre();" style="display:none;">
+                    <i class="fa fa-edit"></i> Modifier
+                </button>
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Close()">
+                    <i class="fa fa-times"></i> Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/offrejs")
+}
