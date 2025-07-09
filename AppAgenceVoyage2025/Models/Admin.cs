@@ -9,6 +9,6 @@ namespace AppAgenceVoyage.Models
     public class Admin:Utilisateur
     {
         [Display(Name = "Matricule"), Required(ErrorMessage = "*"), MaxLength(20)]
-        public string MatriculeAdmin { get; set; }
+        public string MatriculeAdmin { get; set; } 
     }
 }
