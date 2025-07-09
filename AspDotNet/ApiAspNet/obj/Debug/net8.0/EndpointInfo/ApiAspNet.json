@@ -130,6 +130,28 @@
         }
       }
     },
+    "/users/me": {
+      "get": {
+        "tags": [
+          "ApiAspNet"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Authenticate/login": {
       "post": {
         "tags": [

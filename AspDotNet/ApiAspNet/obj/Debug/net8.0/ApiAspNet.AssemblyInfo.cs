@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("593a353f-891c-4122-a5b9-b5ac0ffc19ce")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiAspNet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+219b124347e5cf0cfc22fd36a953dec46a1f2bee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e1050e85019c5d6496934657f049fa50dfb5a95")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiAspNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiAspNet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,12 +1,14 @@
 ﻿using ApiAspNet.Models.Chauffeurs;
 using ApiAspNet.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiAspNet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ChauffeurController : ControllerBase
     {
         private IChauffeurService _chauffeurService;

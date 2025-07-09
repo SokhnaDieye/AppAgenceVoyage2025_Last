@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -50,18 +51,19 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    options.Authority = configuration["JWT:Authority"];
     options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
+    options.RequireHttpsMetadata = configuration.GetValue<bool>("JWT:RequireHttpsMetadata");
+
+    options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ClockSkew = TimeSpan.Zero,
-        ValidAudience = configuration["JWT:ValidAudience"],
         ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+        ValidAudiences = configuration.GetSection("JWT:ValidAudiences").Get<string[]>()
     };
 });
 
@@ -92,7 +94,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll"); 
+app.UseCors("AllowAll");
+
+app.MapGet("users/me", (ClaimsPrincipal claimsPrincipal) => {
+    return claimsPrincipal.Claims.ToDictionary(c => c.Type, c => c.Value);
+}).RequireAuthorization();
 
 app.UseAuthentication();
 app.UseAuthorization();
