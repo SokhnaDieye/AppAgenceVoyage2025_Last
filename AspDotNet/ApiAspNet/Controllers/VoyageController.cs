@@ -1,6 +1,7 @@
 ﻿using ApiAspNet.Models.Voyages;
 using ApiAspNet.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace ApiAspNet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class VoyageController : ControllerBase
     {
         private IVoyageService _VoyageService;

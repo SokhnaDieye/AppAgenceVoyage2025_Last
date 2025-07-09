@@ -1,12 +1,14 @@
 ﻿using ApiAspNet.Models.Offres;
 using ApiAspNet.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiAspNet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OffreController : ControllerBase
     {
         private IOffreService _service;

@@ -1,12 +1,14 @@
 ﻿using ApiAspNet.Models.Gestionnaires;
 using ApiAspNet.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiAspNet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GestionnaireController : ControllerBase
     {
         private IGestionnaireService _service;
