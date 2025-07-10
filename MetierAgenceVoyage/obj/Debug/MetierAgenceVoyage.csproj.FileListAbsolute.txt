@@ -20,7 +20,6 @@ C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\EntityFramew
 C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\EntityFramework.SqlServer.xml
 C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\EntityFramework6.Npgsql.xml
 C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\Microsoft.Bcl.AsyncInterfaces.xml
-C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\Npgsql.pdb
 C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\Npgsql.xml
 C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\System.Buffers.xml
 C:\Users\HP\source\repos\AppAgenceVoyage2025\MetierAgenceVoyage\bin\System.Memory.xml

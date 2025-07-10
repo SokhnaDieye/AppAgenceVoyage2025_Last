@@ -1,3 +1,4 @@
+﻿using ApiAspNet.Controllers;
 using ApiAspNet.Helpers;
 using ApiAspNet.Models.Auth;
 using ApiAspNet.Services;
@@ -5,6 +6,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -35,6 +40,11 @@ builder.Services.AddScoped<IChauffeurService, ChauffeurService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IGestionnaireService, GestionnaireService>();
 builder.Services.AddScoped<IOffreService, OffreService>();
+
+
+configureLogging();
+builder.Host.UseSerilog();
+
 
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -92,7 +102,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll"); 
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -100,3 +110,34 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void configureLogging()
+{
+    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile(
+            $"appsettings.{environment}.json", optional: true
+        ).Build();
+
+    Log.Logger= new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .Enrich.WithProperty("Application", "ApiAspNet")
+        .Enrich.WithExceptionDetails()
+        .WriteTo.Debug()
+        .WriteTo.Console()
+        .WriteTo.Elasticsearch(ConfigureElasticSink(configuration,environment))
+        .Enrich.WithProperty("Environment",environment)
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+}
+ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
+{
+    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
+    {
+        AutoRegisterTemplate = true,
+        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".","-")}-{environment.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
+        NumberOfReplicas = 1,
+        NumberOfShards = 2
+    };
+}
