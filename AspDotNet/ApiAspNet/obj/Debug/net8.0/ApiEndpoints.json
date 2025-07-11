@@ -79,6 +79,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ApiAspNet.Controllers.AgenceController",
+    "Method": "TestKafka",
+    "RelativePath": "api/Agence/test-kafka",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testData",
+        "Type": "System.Object",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ApiAspNet.Controllers.AuthenticateController",
     "Method": "Login",
     "RelativePath": "api/Authenticate/login",
