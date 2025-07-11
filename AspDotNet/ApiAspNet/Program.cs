@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using Confluent.Kafka;
+using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -80,6 +83,16 @@ builder.Services.AddCors(options =>
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Kafka Producer
+var producerConfig = new ProducerConfig
+                     {
+                         BootstrapServers = "localhost:9092",
+                         ClientId = "agence-producer"
+                     };
+
+builder.Services.AddSingleton<IProducer<string, string>>(
+    new ProducerBuilder<string, string>(producerConfig).Build());
 
 var app = builder.Build();
 

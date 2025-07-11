@@ -31,7 +31,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\mbaye\\OneDrive\\Documents\\ISI\\M1GL\\ASP\\AppExam\\MetierAgenceVoyage\\MetierAgenceVoyage.csproj": {
+                "projectPath": "C:\\Users\\mbaye\\OneDrive\\Documents\\ISI\\M1GL\\ASP\\AppExam\\MetierAgenceVoyage\\MetierAgenceVoyage.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -58,6 +62,10 @@
               "target": "Package",
               "version": "[1.6.0, )"
             },
+            "Confluent.Kafka": {
+              "target": "Package",
+              "version": "[2.11.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.17, )"
@@ -75,6 +83,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.5, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
@@ -106,6 +118,22 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "C:\\Users\\mbaye\\OneDrive\\Documents\\ISI\\M1GL\\ASP\\AppExam\\MetierAgenceVoyage\\MetierAgenceVoyage.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\mbaye\\OneDrive\\Documents\\ISI\\M1GL\\ASP\\AppExam\\MetierAgenceVoyage\\MetierAgenceVoyage.csproj",
+        "projectName": "MetierAgenceVoyage",
+        "projectPath": "C:\\Users\\mbaye\\OneDrive\\Documents\\ISI\\M1GL\\ASP\\AppExam\\MetierAgenceVoyage\\MetierAgenceVoyage.csproj",
+        "UsingMicrosoftNETSdk": false,
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {}
       }
     }
   }
