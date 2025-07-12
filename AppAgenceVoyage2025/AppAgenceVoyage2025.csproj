@@ -691,6 +691,7 @@
     <Content Include="assets\vendor\tinymce\license.md" />
     <Content Include="assets\vendor\tinymce\package.json" />
     <Content Include="assets\vendor\tinymce\README.md" />
+    <None Include="docker-compose.yml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\clientJs.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
